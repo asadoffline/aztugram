@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asadoffline.github.io/aztugram/sitemap.xml
