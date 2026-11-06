@@ -252,7 +252,7 @@ function bar(){
   $('#ab').innerHTML=user?`<span>👤 ${esc(user.name)}</span><button class="btn sm" id="lo">Çıxış</button>`:'<button class="btn sm" id="lg">Daxil ol / Qeydiyyat</button>';
   if(user)$('#lo').onclick=()=>{tok='';user=null;try{localStorage.removeItem('az_tok')}catch(e){}bar();refresh()};
   else $('#lg').onclick=()=>{amode('login');$('#dg').showModal()};
-  $('#evf').hidden=!(user&&user.canPost);$('#tadm').hidden=!(user&&user.admin)}
+$('#evf').hidden=!(user&&user.canPostEvents);$('#tadm').hidden=!(user&&user.isAdmin)
 function amode(m){am=m;const v=m==='ver',f=m==='forgot',r=m==='reset';
   $('#dh').textContent={login:'Daxil ol',reg:'Qeydiyyat',ver:'Emaili təsdiqlə',forgot:'Şifrəni yenilə',reset:'Yeni şifrə təyin et'}[m];
   $('#an').hidden=m!=='reg';$('#ae').hidden=r;$('#ap').hidden=v||f;$('#ac').hidden=!v;
