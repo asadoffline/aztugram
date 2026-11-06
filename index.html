@@ -204,17 +204,17 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
 /* Divar (server) */
 function openAuth(){amode('login');$('#dg').showModal()}
 async function wallLoad(){
-  try{const r=await api('/wall');
-    $('#wl').innerHTML=r.posts.length?r.posts.map(p=>`<div class="item"><div><span class="tag">${esc(p.cat)}</span><b>${esc(p.author)}</b> <small>${esc(p.date)}</small><div>${esc(p.text)}</div><button class="ghost" data-l="${p.id}" aria-label="Bəyən">👍 ${p.likes}</button></div>${user&&(user.id===p.uid||user.admin)?`<button class="ghost" data-x="${p.id}">Sil</button>`:''}</div>`).join(''):'<div class="empty">Hələ yazı yoxdur. İlk yazını sən paylaş.</div>';
-    $('#wl').querySelectorAll('[data-l]').forEach(b=>b.onclick=async()=>{if(!user)return openAuth();try{await api('/wall/'+b.dataset.l+'/like',{m:'POST'});wallLoad()}catch(e){}});
-    $('#wl').querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{try{await api('/wall/'+b.dataset.x,{m:'DELETE'});wallLoad()}catch(e){}});
+  try{const r={posts:await api('/posts')};
+    $('#wl').innerHTML=r.posts.length?r.posts.map(p=>`<div class="item"><div><span class="tag">${esc(p.category)}</span><b>${esc(p.author)}</b> <small>${esc(new Date(p.createdAt).toLocaleDateString('az'))}</small><div>${esc(p.text)}</div><button class="ghost" data-l="${p.id}" aria-label="Bəyən">👍 ${p.likes}</button></div>${p.canDelete?`<button class="ghost" data-x="${p.id}">Sil</button>`:''}</div>`).join(''):'<div class="empty">Hələ yazı yoxdur. İlk yazını sən paylaş.</div>';
+    $('#wl').querySelectorAll('[data-l]').forEach(b=>b.onclick=async()=>{if(!user)return openAuth();try{await api('/posts/'+b.dataset.l+'/like',{m:'POST'});wallLoad()}catch(e){}});
+    $('#wl').querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{try{await api('/posts/'+b.dataset.x,{m:'DELETE'});wallLoad()}catch(e){}});
   }catch(e){$('#wl').innerHTML='<div class="empty">Yazıları yükləmək mümkün olmadı.</div>'}}
 $('#wp').onclick=async()=>{const t=$('#wt').value.trim();if(!t)return;if(!user)return openAuth();
-  try{await api('/wall',{m:'POST',b:{cat:$('#wc').value,text:t}});$('#wt').value='';$('#wmsg').textContent='';wallLoad()}
+  try{await api('/posts',{m:'POST',b:{category:$('#wc').value,text:t}});$('#wt').value='';$('#wmsg').textContent='';wallLoad()}
   catch(e){$('#wmsg').className='msg err';$('#wmsg').textContent=e.message}};
 function refresh(){evLoad();wallLoad();admLoad()}
-async function admLoad(){if(!(user&&user.admin))return;
-  try{const r=await api('/admin/users');$('#adl').innerHTML='<p>Cəmi: '+r.users.length+'</p>'+r.users.map(u=>`<div class="item"><div><b>${esc(u.name)}</b><br><small>${esc(u.email)} · ${u.verified?'təsdiqli':'təsdiqsiz'} · ${esc(u.created)}</small></div></div>`).join('')}
+async function admLoad(){if(!(user&&user.isAdmin))return;
+  try{const r={users:await api('/admin/users')};$('#adl').innerHTML='<p>Cəmi: '+r.users.length+'</p>'+r.users.map(u=>`<div class="item"><div><b>${esc(u.name)}</b><br><small>${esc(u.email)} · ${u.verified?'təsdiqli':'təsdiqsiz'} · ${esc(new Date(u.createdAt).toLocaleDateString('az'))}</small></div></div>`).join('')}
   catch(e){$('#adl').textContent='Yüklənmədi'}}
 /* Bal */
 const letter=p=>p>=91?'A (əla)':p>=81?'B (çox yaxşı)':p>=71?'C (yaxşı)':p>=61?'D (kafi)':p>=51?'E (qənaətbəxş)':'F (qeyri-kafi)';
@@ -246,7 +246,7 @@ let user=null,am='login',RT=new URLSearchParams(location.search).get('reset')||'
 async function api(p,o={}){
   const r=await fetch(API+'/api'+p,{method:o.m||'GET',headers:{'Content-Type':'application/json',...(tok?{Authorization:'Bearer '+tok}:{})},body:o.b?JSON.stringify(o.b):undefined});
   const j=await r.json().catch(()=>({}));
-  if(!r.ok){const e=new Error(j.error||'Xəta baş verdi');e.need=j.needVerify;throw e}
+  if(!r.ok){const e=new Error(j.error||'Xəta baş verdi');e.need=j.needsVerify;throw e}
   return j}
 function bar(){
   $('#ab').innerHTML=user?`<span>👤 ${esc(user.name)}</span><button class="btn sm" id="lo">Çıxış</button>`:'<button class="btn sm" id="lg">Daxil ol / Qeydiyyat</button>';
@@ -267,7 +267,7 @@ function authOk(r){tok=r.token;user=r.user;try{localStorage.setItem('az_tok',tok
 $('#as').onclick=async()=>{
   const b={name:$('#an').value,email:$('#ae').value,password:$('#ap').value,code:$('#ac').value};
   try{
-    if(am==='reg'){const r=await api('/register',{m:'POST',b});amode('ver');$('#am').textContent=r.message}
+    if(am==='reg'){const r=await api('/register',{m:'POST',b});if(r.token){authOk(r)}else{amode('ver');$('#am').textContent=r.message}}
     else if(am==='login'){try{authOk(await api('/login',{m:'POST',b}))}catch(e){if(e.need){amode('ver');$('#am').textContent=e.message}else throw e}}
     else if(am==='forgot'){const r=await api('/forgot',{m:'POST',b});$('#am').textContent=r.message}
     else if(am==='reset'){const r=await api('/reset',{m:'POST',b:{token:RT,password:b.password}});RT='';history.replaceState(null,'',location.pathname);amode('login');$('#am').textContent=r.message}
@@ -275,12 +275,12 @@ $('#as').onclick=async()=>{
   }catch(e){$('#am').className='msg err';$('#am').textContent=e.message}};
 /* Tədbirlər */
 async function evLoad(){
-  try{const r=await api('/events');
-    $('#evl').innerHTML=r.events.length?r.events.map(e=>`<div class="item"><div><b>${esc(e.title)}</b><br><small>📅 ${fmt(e.date)} · 📍 ${esc(e.place)} · ${esc(e.author)}</small><div>${esc(e.desc||'')}</div></div>${user&&(user.id===e.uid||user.admin)?`<button class="ghost" data-x="${e.id}">Sil</button>`:''}</div>`).join(''):'<div class="empty">Hələ tədbir yoxdur.</div>';
+  try{const r={events:await api('/events')};
+    $('#evl').innerHTML=r.events.length?r.events.map(e=>`<div class="item"><div><b>${esc(e.title)}</b><br><small>📅 ${fmt(e.date)} · 📍 ${esc(e.location||'')} · ${esc(e.author)}</small><div>${esc(e.description||'')}</div></div>${e.canDelete?`<button class="ghost" data-x="${e.id}">Sil</button>`:''}</div>`).join(''):'<div class="empty">Hələ tədbir yoxdur.</div>';
     $('#evl').querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{try{await api('/events/'+b.dataset.x,{m:'DELETE'});evLoad()}catch(e){}})
   }catch(e){$('#evl').innerHTML='<div class="empty">Tədbirləri yükləmək mümkün olmadı.</div>'}}
 $('#eadd').onclick=async()=>{
-  try{await api('/events',{m:'POST',b:{title:$('#et1').value,date:$('#et2').value,place:$('#et3').value,desc:$('#et4').value}});
+  try{await api('/events',{m:'POST',b:{title:$('#et1').value,date:$('#et2').value,location:$('#et3').value,description:$('#et4').value}});
     ['#et1','#et2','#et3','#et4'].forEach(i=>$(i).value='');$('#em').className='msg';$('#em').textContent='';evLoad()
   }catch(e){$('#em').className='msg err';$('#em').textContent=e.message}};
 /* AzTUPlay: yaddaş kartları */
