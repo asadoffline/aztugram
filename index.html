@@ -73,6 +73,14 @@ dialog input{width:100%;margin-bottom:10px}
 .card{aspect-ratio:1;font-size:2rem;border:1px solid var(--line);border-radius:8px;background:var(--navy);color:var(--herotxt);cursor:pointer}
 .card.on{background:var(--card);color:inherit}
 .card.ok{background:var(--sand);color:inherit}
+.tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}.tabs button{white-space:nowrap;flex:none}
+.soc{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.soc a{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;font:700 .95rem "Nunito Sans",sans-serif;text-decoration:none;color:#fff}
+.soc a.tt{background:#111}.soc a.ig{background:linear-gradient(45deg,#f09433,#dc2743,#bc1888)}.soc a.wa{background:#25a244}
+.qs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.qs button{font:600 .85rem "Nunito Sans",sans-serif;padding:6px 12px;border-radius:99px;border:1px solid var(--gold);background:none;color:var(--ink);cursor:pointer}
+.soon{margin-top:22px;padding:16px;border:2px dashed var(--gold);border-radius:10px;text-align:center;font-weight:700;color:var(--gold)}
+.panel{padding:20px}.item>div{min-width:0;overflow-wrap:anywhere}
+@media(max-width:560px){.hero .wrap{justify-content:center;text-align:center;padding-top:64px}.hero img{width:140px;height:140px}.soc{justify-content:center}}
 </style>
 </head>
 <body>
@@ -81,8 +89,7 @@ dialog input{width:100%;margin-bottom:10px}
 <div>
 <h1>AZTUGRAM</h1>
 <p>AzTU tələbələrinin öz məkanı: kampus həyatı, tədbirlər, mini oyunlar, bal hesablamaları və AzTU AI bir yerdə.</p>
-<span class="note">Tələbələr tərəfindən hazırlanıb. Rəsmi AzTU saytı deyil.</span><br>
-<a class="btn tt" href="https://www.tiktok.com/@aztugram" target="_blank" rel="noopener" style="margin-left:0">TikTok səhifəmiz</a>
+<span class="note">Tələbələr tərəfindən hazırlanıb. Rəsmi AzTU saytı deyil.</span><div class="soc"></div>
 </div></div></header>
 
 <dialog id="dg"><h2 id="dh" style="margin-bottom:14px">Daxil ol</h2>
@@ -92,7 +99,7 @@ dialog input{width:100%;margin-bottom:10px}
 <input id="ac" inputmode="numeric" maxlength="6" placeholder="Emailə gələn 6 rəqəmli kod" aria-label="Təsdiq kodu">
 <p class="msg" id="am" role="status"></p>
 <div class="row"><button class="btn" id="as">Davam et</button><button class="ghost" id="ax">Bağla</button></div>
-<button class="ghost" id="aw" style="padding-left:0"></button></dialog>
+<button class="ghost" id="aw" style="padding-left:0"></button><br><button class="ghost" id="af" style="padding-left:0">Şifrəni unutmusan?</button></dialog>
 <main><div class="wrap">
 <div class="tabs" role="tablist">
 <button role="tab" aria-selected="true" data-t="wall">Kampus divarı</button>
@@ -101,15 +108,15 @@ dialog input{width:100%;margin-bottom:10px}
 <button role="tab" aria-selected="false" data-t="ev">Tədbirlər</button>
 <button role="tab" aria-selected="false" data-t="pl">AzTUPlay</button>
 <button role="tab" aria-selected="false" data-t="ai">AzTU AI</button>
+<button role="tab" aria-selected="false" data-t="adm" id="tadm" hidden>İstifadəçilər</button>
 </div>
 
 <section class="panel" id="wall">
 <h2>Kampus divarı</h2>
-<p>Sual ver, elan yaz, itmiş əşyanı bildir və ya tövsiyə paylaş. Yazılar yalnız bu cihazda saxlanılır.</p>
-<div class="row"><input id="wn" placeholder="Adın" maxlength="30" aria-label="Adın">
-<select id="wc" aria-label="Kateqoriya"><option>Sual</option><option>Elan</option><option>Tapıntı</option><option>Tövsiyə</option></select></div>
+<p>Sual ver, elan yaz, itmiş əşyanı bildir və ya tövsiyə paylaş. Yazıları hamı görür, paylaşmaq üçün daxil ol.</p>
+<div class="row"><select id="wc" aria-label="Kateqoriya"><option>Sual</option><option>Elan</option><option>Tapıntı</option><option>Tövsiyə</option></select></div>
 <textarea id="wt" placeholder="Nə paylaşmaq istəyirsən?" maxlength="300" aria-label="Yazı mətni"></textarea>
-<div class="row" style="margin-top:10px"><button class="btn" id="wp">Paylaş</button></div>
+<div class="row" style="margin-top:10px"><button class="btn" id="wp">Paylaş</button></div><p class="msg" id="wmsg"></p>
 <div id="wl"></div>
 </section>
 
@@ -137,7 +144,7 @@ dialog input{width:100%;margin-bottom:10px}
 
 <section class="panel" id="ev" hidden>
 <h2>Tədbirlər</h2>
-<p>AzTU tələbələri üçün tədbirlər. Əlavə etmək üçün daxil ol.</p>
+<p>AzTU tələbələri üçün tədbirlər. Tədbiri yalnız təsdiqlənmiş şəxslər paylaşa bilər.</p>
 <div id="evf" hidden><div class="row"><input id="et1" placeholder="Tədbirin adı" maxlength="80" aria-label="Tədbirin adı"><input id="et2" type="date" aria-label="Tarix"><input id="et3" placeholder="Yer" maxlength="60" aria-label="Yer"></div>
 <textarea id="et4" placeholder="Qısa təsvir" maxlength="300" aria-label="Təsvir"></textarea>
 <div class="row" style="margin-top:10px"><button class="btn" id="eadd">Tədbiri əlavə et</button></div><p class="msg" id="em"></p></div>
@@ -153,27 +160,38 @@ dialog input{width:100%;margin-bottom:10px}
 <h3>Ədəd tap (1–100)</h3>
 <div class="row"><input id="gi" type="number" min="1" max="100" placeholder="Təxminin" aria-label="Təxmin"><button class="btn" id="gb">Yoxla</button><button class="ghost" id="gn">Yenidən</button></div>
 <div id="gm">Mən 1–100 arası ədəd tutdum.</div>
+<div class="soon">🎮 Tezliklə yeni oyunlar əlavə olunacaq!</div>
 </section>
 
 <section class="panel" id="ai" hidden>
 <h2>AzTU AI</h2>
-<p>AzTU və tələbə həyatı haqqında sual ver. Dəqiq tarix və qəbul məlumatlarını aztu.edu.az-dan yoxla.</p>
+<p>Hazır cavablar əsasında AzTU və tələbə həyatı haqqında sual ver. Bilmədiyim sualları rəsmi saytın əlaqə bölməsinə yönləndirirəm.</p>
+<div class="qs" id="qs"></div>
 <div class="chat" id="cl" aria-live="polite"></div>
-<div class="row"><input id="ci" placeholder="Sualını yaz" maxlength="500" style="flex:1" aria-label="Sual"><button class="btn" id="cs">Göndər</button></div>
+<div class="row"><input id="ci" placeholder="Sualını yaz" maxlength="200" style="flex:1" aria-label="Sual"><button class="btn" id="cs">Göndər</button></div>
+</section>
+
+<section class="panel" id="adm" hidden>
+<h2>Qeydiyyatdan keçənlər</h2>
+<p>Bu bölməni yalnız admin görür.</p>
+<div id="adl"></div>
 </section>
 
 <div class="tt-band" style="margin-top:28px">
-<h2>Bizi TikTok-da izlə</h2>
-<p>Kampus anları, tələbə həyatı və yeniliklər orada.</p>
-<a class="btn tt" href="https://www.tiktok.com/@aztugram" target="_blank" rel="noopener">TikTok-a keç</a>
+<h2>Sosial media hesablarımız</h2>
+<p>Kampus anları, tələbə həyatı və yeniliklər bizi izləyin.</p>
+<div class="soc" style="justify-content:center"></div>
 </div>
 </div></main>
 
-<footer><div class="wrap">AZTUGRAM tələbə layihəsidir və Azərbaycan Texniki Universiteti ilə əlaqəli deyil. Yazılar və qeydlər yalnız sənin cihazında saxlanılır.</div></footer>
+<footer><div class="wrap">AZTUGRAM tələbə layihəsidir və Azərbaycan Texniki Universiteti ilə əlaqəli deyil. Hesab məlumatları və paylaşımlar təhlükəsiz serverdə saxlanılır.</div></footer>
 
 <script>
-const TIKTOK="https://www.tiktok.com/@aztugram";
-document.querySelectorAll('.tt').forEach(a=>a.href=TIKTOK);
+/* Sosial media: linkləri burada dəyiş */
+const SOC=[{c:'tt',i:'🎵',n:'TikTok',u:'https://www.tiktok.com/@aztugram'},
+{c:'ig',i:'📸',n:'Instagram',u:'https://www.instagram.com/@aztugram'},
+{c:'wa',i:'💬',n:'WhatsApp kanalı',u:'https://whatsapp.com/channel/0029Vb8sguD4yltHashyHj0G'}];
+document.querySelectorAll('.soc').forEach(e=>e.innerHTML=SOC.map(x=>`<a class="${x.c}" href="${x.u}" target="_blank" rel="noopener">${x.i} ${x.n}</a>`).join(''));
 const $=s=>document.querySelector(s);
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const load=k=>{try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return []}};
@@ -181,19 +199,23 @@ const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 const fmt=d=>d.split('-').reverse().join('.');
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
-  ['wall','gr','fo','ev','pl','ai'].forEach(id=>$('#'+id).hidden=id!==b.dataset.t);
+  ['wall','gr','fo','ev','pl','ai','adm'].forEach(id=>$('#'+id).hidden=id!==b.dataset.t);
 });
-/* Divar */
-let posts=load('az_posts');
-function drawWall(){
-  $('#wl').innerHTML=posts.length?posts.map((p,i)=>`<div class="item"><div><span class="tag">${esc(p.c)}</span><b>${esc(p.n)}</b> <small>${esc(p.d)}</small><div>${esc(p.t)}</div><button class="ghost" data-l="${i}" aria-label="Bəyən">👍 ${p.l||0}</button></div><button class="ghost" data-x="${i}" aria-label="Yazını sil">Sil</button></div>`).join(''):'<div class="empty">Hələ yazı yoxdur. İlk yazını sən paylaş.</div>';
-  $('#wl').querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{posts[b.dataset.l].l=(posts[b.dataset.l].l||0)+1;save('az_posts',posts);drawWall()});
-  $('#wl').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{posts.splice(+b.dataset.x,1);save('az_posts',posts);drawWall()});
-}
-$('#wp').onclick=()=>{const t=$('#wt').value.trim();if(!t)return;
-  const n=new Date(),d=String(n.getDate()).padStart(2,'0')+'.'+String(n.getMonth()+1).padStart(2,'0')+'.'+n.getFullYear();
-  posts.unshift({n:$('#wn').value.trim()||'AzTU tələbəsi',c:$('#wc').value,t,d,l:0});
-  save('az_posts',posts);$('#wt').value='';drawWall()};
+/* Divar (server) */
+function openAuth(){amode('login');$('#dg').showModal()}
+async function wallLoad(){
+  try{const r=await api('/wall');
+    $('#wl').innerHTML=r.posts.length?r.posts.map(p=>`<div class="item"><div><span class="tag">${esc(p.cat)}</span><b>${esc(p.author)}</b> <small>${esc(p.date)}</small><div>${esc(p.text)}</div><button class="ghost" data-l="${p.id}" aria-label="Bəyən">👍 ${p.likes}</button></div>${user&&(user.id===p.uid||user.admin)?`<button class="ghost" data-x="${p.id}">Sil</button>`:''}</div>`).join(''):'<div class="empty">Hələ yazı yoxdur. İlk yazını sən paylaş.</div>';
+    $('#wl').querySelectorAll('[data-l]').forEach(b=>b.onclick=async()=>{if(!user)return openAuth();try{await api('/wall/'+b.dataset.l+'/like',{m:'POST'});wallLoad()}catch(e){}});
+    $('#wl').querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{try{await api('/wall/'+b.dataset.x,{m:'DELETE'});wallLoad()}catch(e){}});
+  }catch(e){$('#wl').innerHTML='<div class="empty">Yazıları yükləmək mümkün olmadı.</div>'}}
+$('#wp').onclick=async()=>{const t=$('#wt').value.trim();if(!t)return;if(!user)return openAuth();
+  try{await api('/wall',{m:'POST',b:{cat:$('#wc').value,text:t}});$('#wt').value='';$('#wmsg').textContent='';wallLoad()}
+  catch(e){$('#wmsg').className='msg err';$('#wmsg').textContent=e.message}};
+function refresh(){evLoad();wallLoad();admLoad()}
+async function admLoad(){if(!(user&&user.admin))return;
+  try{const r=await api('/admin/users');$('#adl').innerHTML='<p>Cəmi: '+r.users.length+'</p>'+r.users.map(u=>`<div class="item"><div><b>${esc(u.name)}</b><br><small>${esc(u.email)} · ${u.verified?'təsdiqli':'təsdiqsiz'} · ${esc(u.created)}</small></div></div>`).join('')}
+  catch(e){$('#adl').textContent='Yüklənmədi'}}
 /* Bal */
 const letter=p=>p>=91?'A (əla)':p>=81?'B (çox yaxşı)':p>=71?'C (yaxşı)':p>=61?'D (kafi)':p>=51?'E (qənaətbəxş)':'F (qeyri-kafi)';
 function addRow(){const r=document.createElement('div');r.className='row';
@@ -217,11 +239,10 @@ $('#fr').onclick=()=>setMode(mode);
 $('#fs').onclick=()=>{if(tm){stop();return}$('#fs').textContent='Fasilə ver';
   tm=setInterval(()=>{left--;show();if(left<=0){stop();if(mode===1500){done++;$('#fmsg').textContent='Bu gün tamamlanan fokus: '+done}
     $('#fmsg').textContent+=' · Vaxt bitdi!';left=mode;show()}},1000)};
-drawWall();
 /* Server (eyni domen). Frontend ayrı hostdadırsa: const API='https://sizin-server.com' */
 const API='https://aztugram-bnekewb2c8c2g9hd.swedencentral-01.azurewebsites.net';
 let tok='';try{tok=localStorage.getItem('az_tok')||''}catch(e){}
-let user=null,am='login';
+let user=null,am='login',RT=new URLSearchParams(location.search).get('reset')||'';
 async function api(p,o={}){
   const r=await fetch(API+'/api'+p,{method:o.m||'GET',headers:{'Content-Type':'application/json',...(tok?{Authorization:'Bearer '+tok}:{})},body:o.b?JSON.stringify(o.b):undefined});
   const j=await r.json().catch(()=>({}));
@@ -229,28 +250,33 @@ async function api(p,o={}){
   return j}
 function bar(){
   $('#ab').innerHTML=user?`<span>👤 ${esc(user.name)}</span><button class="btn sm" id="lo">Çıxış</button>`:'<button class="btn sm" id="lg">Daxil ol / Qeydiyyat</button>';
-  if(user)$('#lo').onclick=()=>{tok='';user=null;try{localStorage.removeItem('az_tok')}catch(e){}bar();evLoad()};
+  if(user)$('#lo').onclick=()=>{tok='';user=null;try{localStorage.removeItem('az_tok')}catch(e){}bar();refresh()};
   else $('#lg').onclick=()=>{amode('login');$('#dg').showModal()};
-  $('#evf').hidden=!user}
-function amode(m){am=m;const v=m==='ver';
-  $('#dh').textContent={login:'Daxil ol',reg:'Qeydiyyat',ver:'Emaili təsdiqlə'}[m];
-  $('#an').hidden=m!=='reg';$('#ap').hidden=v;$('#ac').hidden=!v;
-  $('#aw').textContent=m==='login'?'Hesabın yoxdur? Qeydiyyat':m==='reg'?'Hesabın var? Daxil ol':'';
+  $('#evf').hidden=!(user&&user.canPost);$('#tadm').hidden=!(user&&user.admin)}
+function amode(m){am=m;const v=m==='ver',f=m==='forgot',r=m==='reset';
+  $('#dh').textContent={login:'Daxil ol',reg:'Qeydiyyat',ver:'Emaili təsdiqlə',forgot:'Şifrəni yenilə',reset:'Yeni şifrə təyin et'}[m];
+  $('#an').hidden=m!=='reg';$('#ae').hidden=r;$('#ap').hidden=v||f;$('#ac').hidden=!v;
+  $('#ap').placeholder=r?'Yeni şifrə (ən azı 6 simvol)':'Şifrə (ən azı 6 simvol)';
+  $('#aw').textContent=m==='login'?'Hesabın yoxdur? Qeydiyyat':m==='reg'?'Hesabın var? Daxil ol':(f||r)?'Daxil ol səhifəsinə qayıt':'';
+  $('#af').hidden=m!=='login';
   $('#am').className='msg';$('#am').textContent=''}
+$('#af').onclick=()=>amode('forgot');
 $('#aw').onclick=()=>amode(am==='login'?'reg':'login');
 $('#ax').onclick=()=>$('#dg').close();
-function authOk(r){tok=r.token;user=r.user;try{localStorage.setItem('az_tok',tok)}catch(e){}$('#dg').close();bar();evLoad()}
+function authOk(r){tok=r.token;user=r.user;try{localStorage.setItem('az_tok',tok)}catch(e){}$('#dg').close();bar();refresh()}
 $('#as').onclick=async()=>{
   const b={name:$('#an').value,email:$('#ae').value,password:$('#ap').value,code:$('#ac').value};
   try{
     if(am==='reg'){const r=await api('/register',{m:'POST',b});amode('ver');$('#am').textContent=r.message}
     else if(am==='login'){try{authOk(await api('/login',{m:'POST',b}))}catch(e){if(e.need){amode('ver');$('#am').textContent=e.message}else throw e}}
+    else if(am==='forgot'){const r=await api('/forgot',{m:'POST',b});$('#am').textContent=r.message}
+    else if(am==='reset'){const r=await api('/reset',{m:'POST',b:{token:RT,password:b.password}});RT='';history.replaceState(null,'',location.pathname);amode('login');$('#am').textContent=r.message}
     else authOk(await api('/verify',{m:'POST',b}))
   }catch(e){$('#am').className='msg err';$('#am').textContent=e.message}};
 /* Tədbirlər */
 async function evLoad(){
   try{const r=await api('/events');
-    $('#evl').innerHTML=r.events.length?r.events.map(e=>`<div class="item"><div><b>${esc(e.title)}</b><br><small>📅 ${fmt(e.date)} · 📍 ${esc(e.place)} · ${esc(e.author)}</small><div>${esc(e.desc||'')}</div></div>${user&&user.id===e.uid?`<button class="ghost" data-x="${e.id}">Sil</button>`:''}</div>`).join(''):'<div class="empty">Hələ tədbir yoxdur.</div>';
+    $('#evl').innerHTML=r.events.length?r.events.map(e=>`<div class="item"><div><b>${esc(e.title)}</b><br><small>📅 ${fmt(e.date)} · 📍 ${esc(e.place)} · ${esc(e.author)}</small><div>${esc(e.desc||'')}</div></div>${user&&(user.id===e.uid||user.admin)?`<button class="ghost" data-x="${e.id}">Sil</button>`:''}</div>`).join(''):'<div class="empty">Hələ tədbir yoxdur.</div>';
     $('#evl').querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{try{await api('/events/'+b.dataset.x,{m:'DELETE'});evLoad()}catch(e){}})
   }catch(e){$('#evl').innerHTML='<div class="empty">Tədbirləri yükləmək mümkün olmadı.</div>'}}
 $('#eadd').onclick=async()=>{
@@ -274,20 +300,39 @@ function gnew(){sec=1+Math.floor(Math.random()*100);tr=0;$('#gm').textContent='M
 $('#gb').onclick=()=>{const v=parseInt($('#gi').value);if(isNaN(v))return;tr++;
   $('#gm').textContent=v===sec?`Tapdın! ${tr} cəhdə 🎉`:v<sec?'Daha böyük ↑':'Daha kiçik ↓'};
 $('#gn').onclick=gnew;gnew();
-/* AzTU AI */
-let hist=[];
-function bub(r,t){const d=document.createElement('div');d.className='b '+r;d.textContent=t;$('#cl').appendChild(d);$('#cl').scrollTop=1e9}
-bub('a','Salam! Mən AzTU AI-yam. AzTU və tələbə həyatı haqqında sual verə bilərsən.');
-async function ask(){const t=$('#ci').value.trim();if(!t)return;
-  if(!user){amode('login');$('#dg').showModal();return}
-  $('#ci').value='';bub('u',t);hist.push({role:'user',content:t});$('#cs').disabled=true;
-  try{const r=await api('/ai',{m:'POST',b:{messages:hist.slice(-9)}});hist.push({role:'assistant',content:r.reply});bub('a',r.reply)}
-  catch(e){hist.pop();bub('a','⚠️ '+e.message)}
-  $('#cs').disabled=false}
-$('#cs').onclick=ask;$('#ci').onkeydown=e=>{if(e.key==='Enter')ask()};
+/* AzTU AI (hazır cavablar, API açarı lazım deyil) */
+const OFF='https://aztu.edu.az';
+const KB=[
+{k:['salam','hello','hi','sagol'],a:'Salam! AzTU və tələbə həyatı haqqında sual verə bilərsən.'},
+{k:['aztugram','sayt','platforma','bu nedir'],a:'AZTUGRAM AzTU tələbələri üçün hazırlanmış qeyri-rəsmi platformadır: kampus divarı, tədbirlər, bal hesablayıcı, fokus taymeri və mini oyunlar var. Rəsmi AzTU saytı deyil.'},
+{k:['kecid bal','kecid','imtahan bali','imtahandan','semestr','51','17 bal'],a:'Semestr 50, imtahan 50 bal. Keçid üçün ümumi 51 bal və imtahandan adətən ən azı 17 bal lazımdır. "Bal hesablayıcı" bölməsində hesablaya bilərsən. Dəqiq qaydanı fakültəndən yoxla.'},
+{k:['qiymet','herf','a b c','bal sistemi','gpa','orta bal'],a:'Təxmini şkala: A 91+, B 81–90, C 71–80, D 61–70, E 51–60, F 51-dən aşağı. Orta balı "Bal hesablayıcı" bölməsində hesabla.'},
+{k:['unvan','harada','yerlesir','metro','kampus'],a:'AzTU Bakıda, H.Cavid prospekti 25 ünvanında yerləşir. Dəqiq yol və korpus məlumatı üçün rəsmi saytı yoxla.'},
+{k:['tarix','nece yaranib','yaradilib','ne vaxt'],a:'AzTU-nun tarixi 1950-ci ildə yaradılmış Azərbaycan Politexnik İnstitutuna gedib çıxır. Ətraflı məlumat rəsmi saytdadır.'},
+{k:['qebul','abituriyent','dim','daxil olmaq','hansi bal'],a:'Qəbul Dövlət İmtahan Mərkəzi (DİM) vasitəsilə aparılır. İxtisaslar və keçid ballarını rəsmi saytdan və DİM-in saytından yoxla.'},
+{k:['tedbir','event','konfrans','sergi'],a:'"Tədbirlər" bölməsində tələbə tədbirləri paylaşılır. Tədbiri yalnız təsdiqlənmiş şəxslər əlavə edə bilər.'},
+{k:['oyun','play','yaddas','eded tap'],a:'"AzTUPlay" bölməsində yaddaş kartları və ədəd tapmaq oyunları var. Tezliklə yeni oyunlar əlavə olunacaq.'},
+{k:['fokus','pomodoro','calismaq','taymer','konsentrasiya'],a:'"Fokus taymeri" 25 dəqiqə fokus, 5 dəqiqə fasilə üsulu ilə işləyir. Telefonu kənara qoyub cəhd et.'},
+{k:['divar','paylasim','elan','itmis','tapinti'],a:'"Kampus divarı"nda hamı yazıları görür. Paylaşmaq üçün hesabla daxil olmalısan.'},
+{k:['sifre','parol','unutdum','yenile'],a:'Daxil ol pəncərəsində "Şifrəni unutmusan?" düyməsinə bas. Emailinə şifrə yeniləmə linki göndəriləcək.'},
+{k:['qeydiyyat','hesab','giris','email','kod'],a:'Qeydiyyat üçün ad, email və şifrə yaz. Emailinə 6 rəqəmli kod gələcək, onu daxil edib hesabını təsdiqlə.'},
+{k:['elaqe','telefon','nomre','mail','yazmaq'],a:'Universitetlə əlaqə məlumatları rəsmi saytın əlaqə bölməsindədir: '+OFF},
+{k:['yataqxana','teqaud','cedvel','diplom','transkript','sened','tehsil haqqi','dekanliq'],a:'Bu mövzuda dəqiq və aktual məlumatı yalnız universitet verə bilər. Dekanlığa müraciət et və ya rəsmi saytı yoxla: '+OFF}
+];
+const norm=s=>s.toLowerCase().replace(/ə/g,'e').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ç/g,'c').replace(/ğ/g,'g');
+function answer(q){q=norm(q);let best=null,bs=0;
+  KB.forEach(e=>{const n=e.k.filter(w=>q.includes(w)).length;if(n>bs){bs=n;best=e}});
+  return best?best.a:'Bu sualın cavabını bilmirəm. Rəsmi AzTU saytına baxa və ya universitetlə birbaşa əlaqə saxlayıb öyrənə bilərsən: '+OFF}
+function bub(r,t){const d=document.createElement('div');d.className='b '+r;
+  d.innerHTML=esc(t).replace(/https:\/\/aztu\.edu\.az/g,'<a href="https://aztu.edu.az" target="_blank" rel="noopener">aztu.edu.az</a>');$('#cl').appendChild(d);$('#cl').scrollTop=1e9}
+bub('a','Salam! Mən AzTU AI-yam. Aşağıdakı suallardan birini seç və ya özün yaz.');
+function ask(t){t=(t||$('#ci').value).trim();if(!t)return;$('#ci').value='';bub('u',t);setTimeout(()=>bub('a',answer(t)),300)}
+['Keçid balı neçədir?','Qiymət şkalası','AzTU harada yerləşir?','Qəbul necə olur?','Şifrəmi unutdum'].forEach(q=>{const b=document.createElement('button');b.textContent=q;b.onclick=()=>ask(q);$('#qs').appendChild(b)});
+$('#cs').onclick=()=>ask();$('#ci').onkeydown=e=>{if(e.key==='Enter')ask()};
 /* Başlanğıc */
-bar();evLoad();
-if(tok)api('/me').then(r=>{user=r.user;bar();evLoad()}).catch(()=>{tok='';bar()});
+bar();refresh();
+if(tok)api('/me').then(r=>{user=r.user;bar();refresh()}).catch(()=>{tok='';bar()});
+if(RT){amode('reset');$('#dg').showModal()}
 </script>
 </body>
 </html>
