@@ -240,7 +240,7 @@ $('#fs').onclick=()=>{if(tm){stop();return}$('#fs').textContent='Fasilə ver';
   tm=setInterval(()=>{left--;show();if(left<=0){stop();if(mode===1500){done++;$('#fmsg').textContent='Bu gün tamamlanan fokus: '+done}
     $('#fmsg').textContent+=' · Vaxt bitdi!';left=mode;show()}},1000)};
 /* Server (eyni domen). Frontend ayrı hostdadırsa: const API='https://sizin-server.com' */
-const API='https://aztugram-bnekewb2c8c2g9hd.swedencentral-01.azurewebsites.net';
+const API='';
 let tok='';try{tok=localStorage.getItem('az_tok')||''}catch(e){}
 let user=null,am='login',RT=new URLSearchParams(location.search).get('reset')||'';
 async function api(p,o={}){

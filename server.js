@@ -112,7 +112,7 @@ async function sendVerifyCode(user) {
 // ---------- App ----------
 const app = express();
 app.set('trust proxy', 1);
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(
   cors({
     origin(origin, cb) {
@@ -159,7 +159,10 @@ function optionalAuth(req, _res, next) {
 }
 
 // ---------- Əsas ----------
-app.get('/', (_req, res) => res.json({ ok: true, service: 'aztugram-api' }));
+// Sayt (frontend) fayllari
+['index.html', 'robots.txt', 'sitemap.xml', 'googlebf696ea274b48d41.html'].forEach((f) => {
+  app.get(f === 'index.html' ? ['/', '/index.html'] : '/' + f, (_req, res) => res.sendFile(require('path').join(__dirname, f)));
+});
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 
 // ---------- Qeydiyyat ----------
