@@ -111,7 +111,21 @@ async function sendVerifyCode(user) {
 
 // ---------- App ----------
 const app = express();
+
 app.set('trust proxy', 1);
+
+// ---------- Təmir (maintenance) rejimi ----------
+// Azure-da MAINTENANCE=true olanda sayt səhifələri təmir səhifəsini göstərir.
+// /api işləməyə davam edir. Google və robots faylları açıq qalır.
+const MAINTENANCE_OPEN = ['/robots.txt', '/sitemap.xml', '/googlebf696ea274b48d41.html'];
+app.use((req, res, next) => {
+  if (process.env.MAINTENANCE !== 'true') return next();
+  if (req.path.startsWith('/api') || MAINTENANCE_OPEN.includes(req.path)) return next();
+  res.set('Retry-After', '3600');
+  return res.status(503).sendFile(path.join(__dirname, 'maintenance.html'));
+});
+
+
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(
   cors({
